@@ -105,10 +105,8 @@ export default function CalendarUI() {
         </select>
       </div>
 
-      {/* Calendar Grid Area , second row  */}
+      {/* second row  */}
       <div className="flex flex-col">
-        {" "}
-        {/*second container*/}
         {/* Month Labels Row */}
         <div className="flex flex-col items-start">
           <div className="w-full mb-2 h-5 flex justify-evenly items-center">
@@ -121,41 +119,42 @@ export default function CalendarUI() {
             })}
           </div>
 
-          <div className="flex">
-            {/* Main Grid */}
-            {/* <div className="grid grid-flow-col auto-cols-max gap-1.5">
-                {weeks.map(({ weekData, weekIndex }) => (
-                  <div key={`week-${weekIndex}`} className="grid grid-rows-5 gap-1">
-                    {weekData.map((day, dayIndex) => {
-                      const key = day
-                        ? day.date.toISOString()
-                        : `empty-${weekIndex}-${dayIndex}`;
-                      const bgColor = day
-                        ? levelColors[day.level]
-                        : "bg-transparent";
-                      const title = day
-                        ? `${format(day.date, "PPP")} - Contributions: ${day.level}`
-                        : "No data";
-                      return (
-                        <div
-                          key={key}
-                          className={`w-4 h-4 rounded-sm border border-gray-700/50 ${bgColor}`}
-                          title={title}
-                        ></div>
-                      );
-                    })}
-                  </div>
-                ))}
-              </div> */}
-          </div>
+
         </div>
-        {/* Day Labels Column first column */}
-        <div className="flex flex-col justify-between text-s text-gray-500 pr-3 mr-1.5 mt-0.5 ">
-          <span>Mon</span>
-          <span>Tue</span>
-          <span>Wed</span>
-          <span>Thu</span>
-          <span>Fri</span>
+        {/* Third row */}
+
+        {/* Day Labels first column */}
+        <div className="flex">
+            <div className="flex flex-col justify-between text-s text-gray-500 pr-3 mr-1.5 mt-0.5 ">
+              <div>Mon</div>
+              <div>Tue</div>
+              <div>Wed</div>
+              <div>Thu</div>
+              <div>Fri</div>
+            </div>
+            {/* cells second column */}
+            <div className="flex gap-1.5 overflow-x-auto">
+              {weeks.map(({ weekData, weekIndex }) => (
+                <div key={`week-${weekIndex}`} className="flex flex-col gap-1">
+                  {weekData.map((day, dayIndex) => {
+                    const key = day
+                      ? day.date.toISOString()
+                      : `empty-${weekIndex}-${dayIndex}`;
+                    const bgColor = day ? levelColors[day.level] : "bg-transparent";
+                    const title = day
+                      ? `${format(day.date, "PPP")} - Contributions: ${day.level}`
+                      : "No data";
+                    return (
+                      <div
+                        key={key}
+                        className={`w-3 h-3 rounded-sm border border-gray-700/50 ${bgColor}`}
+                        title={title}
+                      ></div>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
         </div>
       </div>
     </div>
