@@ -1,14 +1,24 @@
 // Imports
+import { startOfYear, addDays, getMonth, format } from "date-fns";
 import { useEffect, useState } from "react";
+// import {
+//   startOfYear,
+//   endOfYear,
+//   getDay,
+//   format,
+//   getDaysInMonth,
+//   startOfMonth,
+// } from "date-fns";
 import {
-  startOfYear,
-  endOfYear,
-  eachDayOfInterval,
+  
+
   getDay,
-  format,
+  getYear,
+  isSameYear
+  
 } from "date-fns";
 
-// const weekdays = [1, 2, 3, 4, 5]; // Mon-Fri (1=Mon)
+
 const monthNames = [
   "Jan",
   "Feb",
@@ -30,131 +40,103 @@ const levelColors = [
   "bg-green-500",
   "bg-green-400",
 ];
+const years = [2021, 2022, 2023, 2024, 2025];
 
 export default function CalendarUI() {
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-  const [weeks, setWeeks] = useState([]);
-  const [monthStarts, setMonthStarts] = useState([]);
-
-  //   const yearOptions = Array.from({ length: 5 }, (_, i) => 2022 + i);
-
-  useEffect(() => {
-    const start = startOfYear(new Date(selectedYear, 0, 1));
-    const end = endOfYear(start);
-
-    const days = eachDayOfInterval({ start, end });
-
-    // Group by weeks, filtering Mon-Fri
-    const calendarWeeks = [];
-    let currentWeek = [];
-
-    days.forEach((date) => {
-      const weekday = getDay(date); // 0 (Sun) to 6 (Sat)
-      const isoWeekday = weekday === 0 ? 7 : weekday; // Shift Sun to 7
-
-      if (isoWeekday >= 1 && isoWeekday <= 5) {
-        currentWeek.push({ date, level: Math.floor(Math.random() * 5) });
-      }
-
-      if (isoWeekday === 5) {
-        calendarWeeks.push(currentWeek);
-        currentWeek = [];
-      }
-    });
-
-    setWeeks(calendarWeeks.map((weekData, i) => ({ weekData, weekIndex: i })));
-
-    // Month starts: track first week index of each month
-    const seen = new Set();
-    const starts = [];
-
-    calendarWeeks.forEach((week, i) => {
-      for (let day of week) {
-        const month = day.date.getMonth();
-        if (!seen.has(month)) {
-          starts[month] = i;
-          seen.add(month);
-        }
-      }
-    });
-
-    setMonthStarts(starts);
-  }, [selectedYear]);
-
-  //   const handleYearChange = (e) => {
-  // setSelectedYear(Number(e.target.value));
-  //   };
+  const [selectedYear, setSelectedYear] = useState("2025");
+  // const [weeks, setWeeks] = useState([]);
 
   return (
-    <div className=" flex flex-col bg-gray-950 text-gray-300 p-6 rounded-lg shadow-xl w-4/5  border border-gray-700">
+    <div className="flex flex-col bg-gray-950 text-gray-300 p-6 rounded-lg shadow-xl w-full border border-gray-700">
       {/* Year Selector, first row */}
-      <div className=" yearColumn flex justify-end mb-5">
+      <div className="yearColumn flex justify-end mb-5">
         <select
-          value="2025"
-          //   onChange={handleYearChange}
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(Number(e.target.value))}
           className="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block p-2.5 placeholder-gray-400"
         >
-          {/* {yearOptions.map((year) => ( */}
-          <option key={0} value={2025}>
-            2025
-          </option>
-          <option key={1} value={2024}>
-            2024
-          </option>
-          {/* ))} */}
+          {years.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
         </select>
       </div>
 
-      {/* second row  */}
-      <div className="flex flex-col">
+      {/* Calendar Grid */}
+      <div className="overflow-x-auto">
         {/* Month Labels Row */}
-        <div className="flex flex-col items-start">
-          <div className="w-full mb-2 h-5 flex justify-evenly items-center">
-            {monthNames.map((name, index) => {
-              return (
-                <div key={name} className="text-s text-gray-400">
-                  {name}
-                </div>
-              );
-            })}
+        <div className="flex justify-between ml-10 mb-1 text-sm text-gray-400">
+          {monthNames.map((month, i) => (
+            <div key={month} className="w-12 text-center">
+              {month}
+            </div>
+          ))}
+        </div>
+
+        <div className="flex">
+          {/* Day Labels Column */}
+          <div className="flex flex-col mr-2 text-xs text-gray-500">
+            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+              <div key={day} className="h-6">
+                {day}
+              </div>
+            ))}
           </div>
 
+          {/* Weeks Columns */}
+          {/* Weeks Columns */}
+<div className="flex">
+  {(() => {
+    const yearStart = startOfYear(new Date(selectedYear, 0, 1));
+    const dayOfWeek = getDay(yearStart); // 0 = Sun, ..., 6 = Sat
+    const totalDays = (getYear(new Date(selectedYear, 11, 31)) % 4 === 0) ? 366 : 365;
+    const daysArray = [];
 
+    // Add blank cells for days before Jan 1
+    for (let i = 0; i < dayOfWeek; i++) {
+      daysArray.push(null); // null means empty placeholder
+    }
+
+    // Fill in actual date objects
+    for (let i = 0; i < totalDays; i++) {
+      daysArray.push(addDays(yearStart, i));
+    }
+
+    // Group into weeks (columns)
+    const weeks = [];
+    for (let i = 0; i < daysArray.length; i += 7) {
+      weeks.push(daysArray.slice(i, i + 7));
+    }
+
+    return weeks.map((week, weekIndex) => {
+      // Check if this week contains the first of any month
+      const hasMonthStart = week.some(
+        (day) => day && day.getDate() === 1
+      );
+    
+      return (
+        <div
+          key={weekIndex}
+          className={`flex flex-col ${hasMonthStart ? "mr-3" : "mr-1"}`}
+        >
+          {week.map((day, dayIndex) => (
+            <div
+              key={dayIndex}
+              className={`w-4 h-5 rounded mb-1 ${
+                day ? "bg-gray-800 hover:bg-emerald-500" : "bg-transparent"
+              }`}
+              title={day ? format(day, "EEE, MMM d") : ""}
+            ></div>
+          ))}
         </div>
-        {/* Third row */}
+      );
+    });
+    
+  })()}
+</div>
 
-        {/* Day Labels first column */}
-        <div className="flex">
-            <div className="flex flex-col justify-between text-s text-gray-500 pr-3 mr-1.5 mt-0.5 ">
-              <div>Mon</div>
-              <div>Tue</div>
-              <div>Wed</div>
-              <div>Thu</div>
-              <div>Fri</div>
-            </div>
-            {/* cells second column */}
-            <div className="flex gap-1.5 overflow-x-auto">
-              {weeks.map(({ weekData, weekIndex }) => (
-                <div key={`week-${weekIndex}`} className="flex flex-col gap-1">
-                  {weekData.map((day, dayIndex) => {
-                    const key = day
-                      ? day.date.toISOString()
-                      : `empty-${weekIndex}-${dayIndex}`;
-                    const bgColor = day ? levelColors[day.level] : "bg-transparent";
-                    const title = day
-                      ? `${format(day.date, "PPP")} - Contributions: ${day.level}`
-                      : "No data";
-                    return (
-                      <div
-                        key={key}
-                        className={`w-3 h-3 rounded-sm border border-gray-700/50 ${bgColor}`}
-                        title={title}
-                      ></div>
-                    );
-                  })}
-                </div>
-              ))}
-            </div>
+
         </div>
       </div>
     </div>
