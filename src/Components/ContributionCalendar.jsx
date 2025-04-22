@@ -29,7 +29,7 @@ const monthNames = [
 export default function CalendarUI() {
 
   const [selectedYear, setSelectedYear] = useState(2025); // Initialize the selected year
-  const [selectedUser, setSelectedUser] = useState('Ajay')
+  const [selectedUser, setSelectedUser] = useState('You')
 
   const handleYearChange = (newYear) => {
     setSelectedYear(newYear);

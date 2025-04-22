@@ -1,4 +1,4 @@
-const users = ["Ajay", "Priya", "Karthik", "Sneha", "Vikram"];
+const users = ["You","Ajay", "Priya", "Karthik", "Sneha", "Vikram"];
 
 function UserSelector({ selectedUser, onUserChange }) {
   return (
