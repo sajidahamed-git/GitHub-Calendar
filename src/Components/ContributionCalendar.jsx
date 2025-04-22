@@ -56,6 +56,7 @@ export default function CalendarUI({fileData}) {
             selectedYear={selectedYear}
             // fileData = {fileData}
             fileData={selectedUser === 'You' ? fileData : null} // Pass fileData only if user is "You"
+            selectedUser={selectedUser}
 
           />
         ))}
