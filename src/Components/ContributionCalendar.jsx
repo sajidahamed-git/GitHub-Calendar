@@ -1,7 +1,11 @@
-// Imports
-
+import {
+  eachDayOfInterval,
+  endOfMonth,
+  startOfMonth,
+  format,
+  getDay,
+} from "date-fns";
 const years = [2021, 2022, 2023, 2024, 2025];
-// const weekdays = [1, 2, 3, 4, 5]; // Mon-Fri (1=Mon)
 const monthNames = [
   "Jan",
   "Feb",
@@ -25,6 +29,7 @@ const levelColors = [
 ];
 
 export default function CalendarUI() {
+  const selectedYear = 2025
   return (
     <div className=" flex flex-col bg-gray-950 text-gray-300 p-6 rounded-lg shadow-xl w-4/5  border border-gray-700">
       {/* Year Selector, first row */}
@@ -54,14 +59,31 @@ export default function CalendarUI() {
             <div>Sat</div>
             <div>Sun</div>
           </div>
-       
-            {monthNames.map((month) => (
-              <div className="">{month}
-              {/*here i need a grid of cells*/}
+
+          {monthNames.map((month, monthIndex) => {
+            const firstDayOfMonth = startOfMonth(new Date(selectedYear, monthIndex));
+            // console.log(firstDayOfMonth)
+            const lastDayOfMonth = endOfMonth(new Date(selectedYear, monthIndex));
+            const daysInMonth = eachDayOfInterval({ start: firstDayOfMonth, end: lastDayOfMonth });
+            console.log(daysInMonth)
+
+            return (
+              <div key={monthIndex} className="Month">
+                <div>{month}</div>
+                <div className="grid grid-rows-7 grid-flow-col gap-0">
+                  {daysInMonth.map((day) => (
+                    <div
+                      key={format(day, 'd')}
+                      className="border-2 w-3 h-3 rounded-sm flex items-center justify-center text-xs"
+                    >
+                      
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
-     
+            );
+          })}
+        </div>
       </div>
     </div>
   );
