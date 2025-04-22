@@ -26,7 +26,7 @@ const monthNames = [
 //   "bg-green-400",
 // ];
 
-export default function CalendarUI() {
+export default function CalendarUI({fileData}) {
 
   const [selectedYear, setSelectedYear] = useState(2025); // Initialize the selected year
   const [selectedUser, setSelectedUser] = useState('You')
@@ -54,6 +54,7 @@ export default function CalendarUI() {
             month={month}
             monthIndex={monthIndex}
             selectedYear={selectedYear}
+            fileData = {fileData}
           />
         ))}
         </div>

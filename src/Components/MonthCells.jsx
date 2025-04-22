@@ -8,7 +8,7 @@ import {
   format,
 } from "date-fns";
 import CustomTooltip from "./CustomTooltip";
-function MonthCells({ month, monthIndex, selectedYear }) {
+function MonthCells({ month, monthIndex, selectedYear,fileData }) {
 
   const firstDayOfMonth = startOfMonth(new Date(selectedYear, monthIndex));
   const lastDayOfMonth = endOfMonth(new Date(selectedYear, monthIndex));
@@ -35,7 +35,7 @@ function MonthCells({ month, monthIndex, selectedYear }) {
           const formattedDate = format(day, "EEE-d");
 
           return (
-            <CustomTooltip key={formattedDate} day={formattedDate}>
+            <CustomTooltip key={formattedDate} day={formattedDate} fileData = {fileData}>
             <div
               key={format(day, "yyyy-MM-dd")}
               title={formattedDate}
