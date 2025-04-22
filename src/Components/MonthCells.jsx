@@ -9,7 +9,13 @@ import {
 } from "date-fns";
 import CustomTooltip from "./CustomTooltip";
 
-function MonthCells({ month, monthIndex, selectedYear, fileData, selectedUser }) {
+function MonthCells({
+  month,
+  monthIndex,
+  selectedYear,
+  fileData,
+  selectedUser,
+}) {
   console.log(selectedUser);
   console.log(fileData);
 
@@ -72,39 +78,36 @@ function MonthCells({ month, monthIndex, selectedYear, fileData, selectedUser })
     // Logic for other users
     const dummyData = [
       {
-        name: "dummy-file-1.txt",
-        type: "text/plain",
+        name: "Project File",
+        type: "PDF",
         size: 500,
-        date: `${selectedYear}-01-15T00:00:00.000Z`,
+        date: `${selectedYear}-01-15`,
       },
       {
-        name: "dummy-file-2.txt",
-        type: "text/plain",
+        name: "index",
+        type: "html",
         size: 300,
-        date: `${selectedYear}-02-10T00:00:00.000Z`,
+        date: `${selectedYear}-02-10`,
       },
       {
         name: "dummy-file-3.txt",
         type: "text/plain",
         size: 700,
-        date: `${selectedYear}-03-20T00:00:00.000Z`,
+        date: `${selectedYear}-03-20`,
       },
       {
         name: "dummy-file-4.txt",
         type: "text/plain",
         size: 450,
-        date: `${selectedYear}-04-25T00:00:00.000Z`,
+        date: `${selectedYear}-04-12`,
       },
     ];
 
-    const normalizedDummyData = dummyData.map((file) => ({
-      ...file,
-      normalizedDate: file.date.split("T")[0], // Normalize date to yyyy-MM-dd
-    }));
+
 
     const uploadedDates = new Map();
-    normalizedDummyData.forEach((file) => {
-      uploadedDates.set(file.normalizedDate, file);
+    dummyData.forEach((file) => {
+      uploadedDates.set(file.date, file);
     });
 
     return (
