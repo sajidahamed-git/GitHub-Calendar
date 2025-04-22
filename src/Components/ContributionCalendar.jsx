@@ -1,14 +1,9 @@
 import React, { useState } from 'react'; // Make sure useState is imported
-// import {
-//   eachDayOfInterval,
-//   endOfMonth,
-//   startOfMonth,
-//   format,
-//   getDay,
-// } from "date-fns";
+
 import YearSelector from './YearSelector'; // Import the new component
 import DayLabels from './DayLabels';     // Import the new component
 import MonthCells from './MonthCells'; // Import the new component
+import UserSelector from './UserSelector';
 const monthNames = [
   "Jan",
   "Feb",
@@ -34,19 +29,25 @@ const monthNames = [
 export default function CalendarUI() {
 
   const [selectedYear, setSelectedYear] = useState(2025); // Initialize the selected year
+  const [selectedUser, setSelectedUser] = useState('Ajay')
 
   const handleYearChange = (newYear) => {
     setSelectedYear(newYear);
     console.log('Selected year:', newYear);
   };
+
+  const handleUserChange = (newUser)=> {
+    setSelectedUser(newUser)
+    console.log('selected User:', newUser)
+  }
   return (
     <div className=" flex flex-col bg-gray-950 text-gray-300 p-6 w-full rounded-lg shadow-xl  border border-gray-700">
-    
-      <YearSelector selectedYear={selectedYear} onYearChange={handleYearChange}/>
-      
+      <div className='flex justify-between'>
+        <UserSelector selectedUser={selectedUser} onUserChange={handleUserChange}></UserSelector>
+        <YearSelector selectedYear={selectedYear} onYearChange={handleYearChange}/>
+      </div>
         <div className="flex justify-around">
           <DayLabels/>
-
         {monthNames.map((month, monthIndex) => (
           <MonthCells
             key={monthIndex}

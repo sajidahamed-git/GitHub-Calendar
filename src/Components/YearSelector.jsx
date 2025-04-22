@@ -4,7 +4,7 @@ const years = [2021, 2022, 2023, 2024, 2025];
 
 function YearSelector({ selectedYear, onYearChange }) {
   return (
-    <div className="yearColumn flex justify-end mb-5">
+    <div className="mb-5">
       <select
         value={selectedYear}
         onChange={(event) => onYearChange(event.target.value)}
