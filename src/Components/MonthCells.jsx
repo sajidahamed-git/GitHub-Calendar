@@ -33,7 +33,6 @@ function MonthCells({ month, monthIndex, selectedYear }) {
 
         {daysInMonth.map((day) => {
           const formattedDate = format(day, "EEE-d");
-          console.log(formattedDate)
 
           return (
             <CustomTooltip key={formattedDate} day={formattedDate}>
