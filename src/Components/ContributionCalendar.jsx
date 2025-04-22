@@ -1,9 +1,9 @@
-import React, { useState } from 'react'; // Make sure useState is imported
+import { useState } from 'react'; 
 
-import YearSelector from './YearSelector'; // Import the new component
-import DayLabels from './DayLabels';     // Import the new component
-import MonthCells from './MonthCells'; // Import the new component
 import UserSelector from './UserSelector';
+import YearSelector from './YearSelector';
+import DayLabels from './DayLabels';    
+import MonthCells from './MonthCells'; 
 const monthNames = [
   "Jan",
   "Feb",
@@ -18,17 +18,11 @@ const monthNames = [
   "Nov",
   "Dec",
 ];
-// const levelColors = [
-//   "bg-gray-800",
-//   "bg-green-700",
-//   "bg-green-600",
-//   "bg-green-500",
-//   "bg-green-400",
-// ];
+
 
 export default function CalendarUI({fileData}) {
 
-  const [selectedYear, setSelectedYear] = useState(2025); // Initialize the selected year
+  const [selectedYear, setSelectedYear] = useState(2025); 
   const [selectedUser, setSelectedUser] = useState('You')
 
   const handleYearChange = (newYear) => {
@@ -54,7 +48,7 @@ export default function CalendarUI({fileData}) {
             month={month}
             monthIndex={monthIndex}
             selectedYear={selectedYear}
-            // fileData = {fileData}
+           
             fileData={selectedUser === 'You' ? fileData : null} // Pass fileData only if user is "You"
             selectedUser={selectedUser}
 

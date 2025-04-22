@@ -32,8 +32,7 @@ function MonthCells({
     // Logic for "You"
     const uploadedDates = new Map();
     if (fileData) {
-      const normalizedDate = fileData.date.split("T")[0]; // Normalize date to yyyy-MM-dd
-      uploadedDates.set(normalizedDate, fileData);
+      uploadedDates.set(fileData.date, fileData); 
     }
 
     return (
@@ -102,8 +101,6 @@ function MonthCells({
         date: `${selectedYear}-04-12`,
       },
     ];
-
-
 
     const uploadedDates = new Map();
     dummyData.forEach((file) => {

@@ -9,7 +9,7 @@ function FileUpload({ onFileMetadata }) {
         name: file.name,
         type: file.type,
         size: file.size,
-        date: new Date().toISOString(), // Add the upload date
+        date: new Date().toISOString().split("T")[0], // Format the date to yyyy-MM-dd
       };
       onFileMetadata(fileData); // Pass file data to the parent
     } else {
