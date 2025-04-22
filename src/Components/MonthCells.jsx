@@ -8,8 +8,8 @@ import {
   format,
 } from "date-fns";
 import CustomTooltip from "./CustomTooltip";
-function MonthCells({ month, monthIndex, selectedYear,fileData }) {
 
+function MonthCells({ month, monthIndex, selectedYear, fileData }) {
   const firstDayOfMonth = startOfMonth(new Date(selectedYear, monthIndex));
   const lastDayOfMonth = endOfMonth(new Date(selectedYear, monthIndex));
   const daysInMonth = eachDayOfInterval({
@@ -32,15 +32,19 @@ function MonthCells({ month, monthIndex, selectedYear,fileData }) {
         ))}
 
         {daysInMonth.map((day) => {
-          const formattedDate = format(day, "EEE-d");
+          const formattedDate = format(day, "yyyy-MM-dd"); // Match the format with fileData.date
 
           return (
-            <CustomTooltip key={formattedDate} day={formattedDate} fileData = {fileData}>
-            <div
-              key={format(day, "yyyy-MM-dd")}
-              title={formattedDate}
-              className="w-4 h-4.25 mb-1 rounded-sm bg-gray-800 hover:bg-emerald-500 transition duration-50 ease-in-out"
-            ></div>
+            <CustomTooltip
+              key={formattedDate}
+              day={formattedDate}
+              fileData={fileData}
+            >
+              <div
+                key={formattedDate}
+                title={formattedDate}
+                className="w-4 h-4.25 mb-1 rounded-sm bg-gray-800 hover:bg-emerald-500 transition duration-50 ease-in-out"
+              ></div>
             </CustomTooltip>
           );
         })}

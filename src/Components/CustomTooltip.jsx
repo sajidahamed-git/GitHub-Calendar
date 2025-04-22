@@ -1,11 +1,10 @@
 // CustomTooltip.js
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-const CustomTooltip = ({ day, children }) => {
+const CustomTooltip = ({ day, fileData, children }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleMouseOver = () => {
-    console.log('testing')
     setIsVisible(true);
   };
 
@@ -13,36 +12,50 @@ const CustomTooltip = ({ day, children }) => {
     setIsVisible(false);
   };
 
-//   const handleMouseMove = (event) => {
-    // Optional: Make the tooltip follow the mouse
-    // setPosition({ x: event.clientX, y: event.clientY });
-//   };
+  // Check if the fileData date matches the current day
+  const isFileUploadedOnDay =
+    fileData && fileData.date.startsWith(day); // Compare the date prefix
 
   return (
-    <div className="relative inline-block" // Needed for absolute positioning of tooltip
-        onMouseOver={handleMouseOver}
-        onMouseOut={handleMouseOut}
-    //   onMouseMove={handleMouseMove}
+    <div
+      className="relative inline-block"
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
     >
       {children} {/* This will render the element that triggers the tooltip */}
       {isVisible && (
         <div
-          className="absolute z-10 bg-white text-black rounded-md shadow-lg p-4 border border-red-800"
+          className="absolute z-10 bg-white text-black rounded-md shadow-lg p-4 border border-gray-800"
           style={{
-            left:'50%', // Adjust as needed
-            top:'120%', // Adjust as needed
-            transform: 'translate(-100%, -120%)',
-            width: '200px', // Adjust the width as needed
+            left: "50%", // Adjust as needed
+            top: "120%", // Adjust as needed
+            transform: "translate(-50%, 0)",
+            width: "200px", // Adjust the width as needed
           }}
         >
           <div className="text-lg font-semibold mb-2">{day}</div>
-          <p className="text-sm text-gray-700">
-            More detailed information about this day can go here.
-          </p>
+          {isFileUploadedOnDay ? (
+            <div>
+              <p>File Name: {fileData.name}</p>
+              <p>File Type: {fileData.type}</p>
+              <p>File Size: {formatFileSize(fileData.size)}</p>
+            </div>
+          ) : (
+            <p>No data for this day</p>
+          )}
         </div>
       )}
     </div>
   );
 };
+
+// Helper function to format file size
+function formatFileSize(bytes) {
+  if (bytes === 0) return "0 Bytes";
+  const k = 1024;
+  const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+}
 
 export default CustomTooltip;
