@@ -33,6 +33,8 @@ function MonthCells({ month, monthIndex, selectedYear, fileData }) {
 
         {daysInMonth.map((day) => {
           const formattedDate = format(day, "yyyy-MM-dd"); // Match the format with fileData.date
+          const isFileUploadedOnDay =
+            fileData && fileData.date.startsWith(formattedDate); // Check if fileData matches the current day
 
           return (
             <CustomTooltip
@@ -43,7 +45,11 @@ function MonthCells({ month, monthIndex, selectedYear, fileData }) {
               <div
                 key={formattedDate}
                 title={formattedDate}
-                className="w-4 h-4.25 mb-1 rounded-sm bg-gray-800 hover:bg-emerald-500 transition duration-50 ease-in-out"
+                className={`w-4 h-4.25 mb-1 rounded-sm transition duration-50 ease-in-out ${
+                  isFileUploadedOnDay
+                    ? "bg-emerald-500 hover:bg-emerald-600" // Highlight if file is uploaded
+                    : "bg-gray-800 hover:bg-gray-700" // Default style
+                }`}
               ></div>
             </CustomTooltip>
           );
