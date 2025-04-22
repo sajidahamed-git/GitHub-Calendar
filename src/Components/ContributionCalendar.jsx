@@ -29,7 +29,7 @@ const levelColors = [
 ];
 
 export default function CalendarUI() {
-  const selectedYear = 2025
+  const selectedYear = 2025;
   return (
     <div className=" flex flex-col bg-gray-950 text-gray-300 p-6 rounded-lg shadow-xl w-4/5  border border-gray-700">
       {/* Year Selector, first row */}
@@ -64,8 +64,10 @@ export default function CalendarUI() {
             const firstDayOfMonth = startOfMonth(new Date(selectedYear, monthIndex));
             // console.log(firstDayOfMonth)
             const lastDayOfMonth = endOfMonth(new Date(selectedYear, monthIndex));
-            const daysInMonth = eachDayOfInterval({ start: firstDayOfMonth, end: lastDayOfMonth });
-            console.log(daysInMonth)
+            const daysInMonth = eachDayOfInterval({start: firstDayOfMonth,
+              end: lastDayOfMonth,
+            });
+            console.log(daysInMonth);
 
             return (
               <div key={monthIndex} className="Month">
@@ -73,11 +75,10 @@ export default function CalendarUI() {
                 <div className="grid grid-rows-7 grid-flow-col gap-0">
                   {daysInMonth.map((day) => (
                     <div
-                      key={format(day, 'd')}
-                      className="border-2 w-3 h-3 rounded-sm flex items-center justify-center text-xs"
-                    >
-                      
-                    </div>
+                      key={format(day, "yyyy-MM-dd")}
+                      title={format(day, "EEE, MMM d")}
+                      className="w-4 h-4 mb-1 rounded-sm bg-gray-800 hover:bg-emerald-500 transition duration-150 ease-in-out"
+                    ></div>
                   ))}
                 </div>
               </div>
