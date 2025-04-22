@@ -1,17 +1,21 @@
 // src/components/MonthGrid.jsx
-import React from 'react';
-import { startOfMonth, endOfMonth, eachDayOfInterval, getDay, format } from 'date-fns';
-
+import React from "react";
+import {
+  startOfMonth,
+  endOfMonth,
+  eachDayOfInterval,
+  getDay,
+  format,
+} from "date-fns";
+import CustomTooltip from "./CustomTooltip";
 function MonthCells({ month, monthIndex, selectedYear }) {
 
-    // const monthNames = [
-    //     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    //     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-    //   ];
-    //   const month = monthNames[monthIndex]
   const firstDayOfMonth = startOfMonth(new Date(selectedYear, monthIndex));
   const lastDayOfMonth = endOfMonth(new Date(selectedYear, monthIndex));
-  const daysInMonth = eachDayOfInterval({ start: firstDayOfMonth, end: lastDayOfMonth });
+  const daysInMonth = eachDayOfInterval({
+    start: firstDayOfMonth,
+    end: lastDayOfMonth,
+  });
   const firstDayNumber = getDay(firstDayOfMonth);
   const paddingDays = firstDayNumber === 0 ? 6 : firstDayNumber - 1; // Adjust to have Monday as the first day of the week
 
@@ -26,13 +30,21 @@ function MonthCells({ month, monthIndex, selectedYear }) {
             className="w-4 h-4 mb-1 rounded-sm"
           ></div>
         ))}
-        {daysInMonth.map((day) => (
-          <div
-            key={format(day, "yyyy-MM-dd")}
-            title={format(day, "EEE, MMM d")}
-            className="w-4 h-4.25 mb-1 rounded-sm bg-gray-800 hover:bg-emerald-500 transition duration-50 ease-in-out"
-          ></div>
-        ))}
+
+        {daysInMonth.map((day) => {
+          const formattedDate = format(day, "EEE-d");
+          console.log(formattedDate)
+
+          return (
+            <CustomTooltip key={formattedDate} day={formattedDate}>
+            <div
+              key={format(day, "yyyy-MM-dd")}
+              title={formattedDate}
+              className="w-4 h-4.25 mb-1 rounded-sm bg-gray-800 hover:bg-emerald-500 transition duration-50 ease-in-out"
+            ></div>
+            </CustomTooltip>
+          );
+        })}
       </div>
     </div>
   );
