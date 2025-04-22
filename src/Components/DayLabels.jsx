@@ -16,4 +16,4 @@ function DayLabels() {
   );
 }
 
-export default DayLabels;
+export default DayLabels;   

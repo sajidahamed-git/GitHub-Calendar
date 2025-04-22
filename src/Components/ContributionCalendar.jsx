@@ -54,7 +54,9 @@ export default function CalendarUI({fileData}) {
             month={month}
             monthIndex={monthIndex}
             selectedYear={selectedYear}
-            fileData = {fileData}
+            // fileData = {fileData}
+            fileData={selectedUser === 'You' ? fileData : null} // Pass fileData only if user is "You"
+
           />
         ))}
         </div>
