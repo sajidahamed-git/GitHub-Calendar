@@ -1,3 +1,4 @@
+import React, { useState } from 'react'; // Make sure useState is imported
 import {
   eachDayOfInterval,
   endOfMonth,
@@ -5,7 +6,8 @@ import {
   format,
   getDay,
 } from "date-fns";
-const years = [2021, 2022, 2023, 2024, 2025];
+import YearSelector from './YearSelector'; // Import the new component
+import DayLabels from './DayLabels';     // Import the new component
 const monthNames = [
   "Jan",
   "Feb",
@@ -20,45 +22,30 @@ const monthNames = [
   "Nov",
   "Dec",
 ];
-const levelColors = [
-  "bg-gray-800",
-  "bg-green-700",
-  "bg-green-600",
-  "bg-green-500",
-  "bg-green-400",
-];
+// const levelColors = [
+//   "bg-gray-800",
+//   "bg-green-700",
+//   "bg-green-600",
+//   "bg-green-500",
+//   "bg-green-400",
+// ];
 
 export default function CalendarUI() {
-  const selectedYear = 2025;
+
+  const [selectedYear, setSelectedYear] = useState(2025); // Initialize the selected year
+
+  const handleYearChange = (newYear) => {
+    setSelectedYear(newYear);
+    console.log('Selected year:', newYear);
+  };
   return (
     <div className=" flex flex-col bg-gray-950 text-gray-300 p-6 w-full rounded-lg shadow-xl  border border-gray-700">
-      {/* Year Selector, first row */}
-      <div className=" yearColumn flex justify-end mb-5">
-        <select
-          value="2025"
-          className="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block p-2.5 placeholder-gray-400"
-        >
-          {years.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-        </select>
-      </div>
-
+    
+      <YearSelector selectedYear={selectedYear} onYearChange={handleYearChange}/>
+      
       {/* second row  */}
-      <div className="FullRow  ">
         <div className="flex justify-around">
-          <div className=" Days text-s text-gray-500  ">
-            <div>Day</div>
-            <div>Mon</div>
-            <div>Tue</div>
-            <div>Wed</div>
-            <div>Thu</div>
-            <div>Fri</div>
-            <div>Sat</div>
-            <div>Sun</div>
-          </div>
+          <DayLabels/>
 
           {monthNames.map((month, monthIndex) => {
             const firstDayOfMonth = startOfMonth(
@@ -72,7 +59,7 @@ export default function CalendarUI() {
               start: firstDayOfMonth,
               end: lastDayOfMonth,
             });
-            console.log(daysInMonth);
+            // console.log(daysInMonth);
             const firstDayNumber = getDay(firstDayOfMonth);
             const paddingDays = firstDayNumber === 0 ? 6 : firstDayNumber - 1; // Adjust to have Monday as the first day of the week
 
@@ -100,6 +87,5 @@ export default function CalendarUI() {
           })}
         </div>
       </div>
-    </div>
   );
 }

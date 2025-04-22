@@ -1,5 +1,5 @@
 import React from 'react';
-import ContributionCalendar from './components/ContributionCalendar';
+import ContributionCalendar from './components/ContributionCalendar'
 import './index.css'; // Ensure your Tailwind CSS is imported
 
 function App() {
